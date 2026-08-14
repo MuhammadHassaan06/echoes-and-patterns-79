@@ -1,0 +1,90 @@
+{
+  "hero": {
+    "title": "ECHOES OF FREEDOM",
+    "subtitle": "79 Years of Resilience, Heritage, and Progress",
+    "cta": "Begin Journey"
+  },
+  "genesis": {
+    "dateLabel": "14.08.1947",
+    "tributeText": "At midnight, a new nation found its voice. From Lahore, across a waiting subcontinent, the words that mattered most were simple: a free Pakistan had begun.",
+    "caption": "A tribute moment marking the birth of Pakistan, 14th August 1947."
+  },
+  "tapestry": {
+    "title": "The Living Tapestry",
+    "subtitle": "Regional Craft & Cultural Heritage Atlas",
+    "regions": {
+      "punjab": {
+        "title": "Punjab",
+        "craft": "Multani Blue Pottery & Heer Storytelling",
+        "description": "Home to Multani blue pottery and the timeless folklore of Heer Ranjha, Punjab's craft traditions blend Mughal-era ceramics with a living oral storytelling culture that still shapes its villages and cities today."
+      },
+      "sindh": {
+        "title": "Sindh",
+        "craft": "Ajrak Block Printing & Ancient Mohenjo-Daro Heritage",
+        "description": "From the ancient streets of Mohenjo-Daro to the geometric block-printed patterns of Ajrak, Sindh carries one of the subcontinent's oldest continuous craft and civilizational traditions."
+      },
+      "kpk": {
+        "title": "Khyber Pakhtunkhwa",
+        "craft": "Peshawari Copper Art & Rabab Melonies",
+        "description": "Peshawar's copper and brasswork artisans have shaped intricate household art for generations, while the Rabab's acoustic tradition keeps the region's musical heritage alive."
+      },
+      "balochistan": {
+        "title": "Balochistan",
+        "craft": "Balochi Needlework & Coastal Rugged Symbolism",
+        "description": "Balochi needlework embroidery — vivid, hand-stitched, and deeply symbolic — mirrors the rugged beauty of a coastal and mountainous landscape unlike anywhere else in the country."
+      },
+      "gb_kashmir": {
+        "title": "Gilgit-Baltistan & Kashmir",
+        "craft": "Walnut Wood Carving & Pashmina Weaving",
+        "description": "Walnut wood carving and Pashmina weaving traditions have thrived for centuries in the shadow of the world's highest peaks, carrying craftsmanship shaped by altitude and patience."
+      }
+    }
+  },
+  "milestones": {
+    "title": "79 Years of Milestones",
+    "timeline": [
+      {
+        "era": "1950s–1960s",
+        "title": "Foundations & Vision",
+        "description": "Pakistan lays its architectural and institutional foundations — Minar-e-Pakistan rises in Lahore, and Islamabad is planned and built as a new capital, symbolizing a young nation designing its own future."
+      },
+      {
+        "era": "1970s–1990s",
+        "title": "Golden Era of Culture & Sport",
+        "description": "A cultural golden era — PTV dramas become a shared national experience, and in 1992 Pakistan lifts the Cricket World Cup, uniting the country in celebration."
+      },
+      {
+        "era": "2000s–2010s",
+        "title": "Digital Awakening & Youth Energy",
+        "description": "A generation comes of age online — telecom and internet access expand rapidly, and Pakistani youth begin building startups, media, and creative work with global reach."
+      },
+      {
+        "era": "2020s",
+        "title": "Innovation & Global Reach",
+        "description": "A new wave of tech, design, and entrepreneurial energy — from freelancers to founders — continues to reshape how the world sees Pakistani talent."
+      },
+      {
+        "era": "2026",
+        "title": "79th Independence Day",
+        "description": "Seventy-nine years on, the story continues to be written — not just by history, but by every generation choosing to carry it forward."
+      }
+    ]
+  },
+  "badge": {
+    "title": "Badge Creator",
+    "subtitle": "Create & Share Your Custom 79th Independence Day Keepsake",
+    "frames": [
+      "Truck Art Motif",
+      "Ajrak Minimalist",
+      "Modern Emerald Wave"
+    ],
+    "wishes": [
+      "Here's to a Pakistan we keep building, together.",
+      "Proud of where we've come from. Excited for where we're going.",
+      "Chhote chhote kaam se bhi mulk ban'ta hai — apna hissa daalte rahenge."
+    ]
+  },
+  "footer": {
+    "note": "This tribute was built with care, for a country still writing its story — 79 years in, and counting."
+  }
+}

@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+:root {
+  /* Color Tokens (Blueprint Section 2) */
+  --emerald-deep: #012E17;
+  --emerald-vibrant: #01411C;
+  --cream-archival: #F5F2EB;
+  --gold-antique: #C5A880;
+  --multani-blue: #005B82;
+  --terracotta: #A33B20;
+  --chamakpatti-yellow: #F3C623;
+
+  --background: var(--emerald-deep);
+  --foreground: var(--cream-archival);
+}
+
+@theme {
+  --color-emerald-deep: #012E17;
+  --color-emerald-vibrant: #01411C;
+  --color-cream-archival: #F5F2EB;
+  --color-gold-antique: #C5A880;
+  --color-multani-blue: #005B82;
+  --color-terracotta: #A33B20;
+  --color-chamakpatti-yellow: #F3C623;
+
+  --font-serif: var(--font-playfair-display), serif;
+  --font-sans: var(--font-plus-jakarta-sans), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+  --font-urdu: var(--font-noto-nastaliq-urdu), 'Amiri', serif;
+}
+
+body {
+  background-color: var(--emerald-deep);
+  color: var(--cream-archival);
+  font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Urdu Typography Specific Line Height & Baseline Adjustment */
+.font-urdu, [lang="ur"] {
+  font-family: var(--font-noto-nastaliq-urdu), 'Amiri', serif;
+  line-height: 1.9;
+  letter-spacing: 0;
+}
+
+/* Grain Overlay (Fixed SVG Noise) */
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
