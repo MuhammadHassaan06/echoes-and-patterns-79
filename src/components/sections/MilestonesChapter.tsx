@@ -1,16 +1,20 @@
 'use client';
 
 import React from 'react';
-import { Language } from '@/types/i18n';
+import { useTranslation } from '@/hooks/useTranslation';
 import en from '@/data/i18n/en.json';
 import ur from '@/data/i18n/ur.json';
+import { Language } from '@/types/i18n';
 
 interface MilestonesChapterProps {
-  lang: Language;
+  lang?: Language;
 }
 
-export default function MilestonesChapter({ lang }: MilestonesChapterProps) {
-  const content = lang === 'ur' ? ur.milestones : en.milestones;
+export default function MilestonesChapter({ lang }: MilestonesChapterProps = {}) {
+  const { language } = useTranslation();
+  const activeLang = lang ?? language;
+
+  const content = activeLang === 'ur' ? ur.milestones : en.milestones;
 
   return (
     <section id="milestones" className="py-24 px-6 border-t border-gold-antique/10 bg-emerald-deep">
@@ -19,7 +23,7 @@ export default function MilestonesChapter({ lang }: MilestonesChapterProps) {
           <span className="font-mono text-xs text-gold-antique tracking-widest uppercase">
             CHAPTER 3 • HISTORICAL CHRONICLE
           </span>
-          <h2 className={`text-4xl font-bold text-cream-archival ${lang === 'ur' ? 'font-urdu text-5xl' : 'font-serif'}`}>
+          <h2 className={`text-4xl font-bold text-cream-archival ${activeLang === 'ur' ? 'font-urdu text-5xl' : 'font-serif'}`}>
             {content.title}
           </h2>
         </div>
@@ -36,10 +40,10 @@ export default function MilestonesChapter({ lang }: MilestonesChapterProps) {
                 </span>
               </div>
               <div className="space-y-2">
-                <h3 className={`text-xl font-bold text-cream-archival ${lang === 'ur' ? 'font-urdu text-2xl' : 'font-serif'}`}>
+                <h3 className={`text-xl font-bold text-cream-archival ${activeLang === 'ur' ? 'font-urdu text-2xl' : 'font-serif'}`}>
                   {item.title}
                 </h3>
-                <p className={`text-sm text-cream-archival/80 ${lang === 'ur' ? 'font-urdu leading-relaxed' : 'font-sans'}`}>
+                <p className={`text-sm text-cream-archival/80 ${activeLang === 'ur' ? 'font-urdu leading-relaxed' : 'font-sans'}`}>
                   {item.description}
                 </p>
               </div>

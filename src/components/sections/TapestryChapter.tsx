@@ -1,17 +1,21 @@
 'use client';
 
 import React from 'react';
-import { Language } from '@/types/i18n';
+import { useTranslation } from '@/hooks/useTranslation';
 import RegionCard from '../ui/RegionCard';
 import en from '@/data/i18n/en.json';
 import ur from '@/data/i18n/ur.json';
+import { Language } from '@/types/i18n';
 
 interface TapestryChapterProps {
-  lang: Language;
+  lang?: Language;
 }
 
-export default function TapestryChapter({ lang }: TapestryChapterProps) {
-  const content = lang === 'ur' ? ur.tapestry : en.tapestry;
+export default function TapestryChapter({ lang }: TapestryChapterProps = {}) {
+  const { language } = useTranslation();
+  const activeLang = lang ?? language;
+
+  const content = activeLang === 'ur' ? ur.tapestry : en.tapestry;
   const regions = content.regions;
 
   return (
@@ -21,10 +25,10 @@ export default function TapestryChapter({ lang }: TapestryChapterProps) {
           <span className="font-mono text-xs text-gold-antique tracking-widest uppercase">
             CHAPTER 2 • REGIONAL CRAFT ATLAS
           </span>
-          <h2 className={`text-4xl font-bold text-cream-archival ${lang === 'ur' ? 'font-urdu text-5xl' : 'font-serif'}`}>
+          <h2 className={`text-4xl font-bold text-cream-archival ${activeLang === 'ur' ? 'font-urdu text-5xl' : 'font-serif'}`}>
             {content.title}
           </h2>
-          <p className={`text-sm text-cream-archival/70 ${lang === 'ur' ? 'font-urdu' : 'font-sans'}`}>
+          <p className={`text-sm text-cream-archival/70 ${activeLang === 'ur' ? 'font-urdu' : 'font-sans'}`}>
             {content.subtitle}
           </p>
         </div>
@@ -34,31 +38,31 @@ export default function TapestryChapter({ lang }: TapestryChapterProps) {
             title={regions.punjab.title}
             craft={regions.punjab.craft}
             description={regions.punjab.description}
-            lang={lang}
+            lang={activeLang}
           />
           <RegionCard
             title={regions.sindh.title}
             craft={regions.sindh.craft}
             description={regions.sindh.description}
-            lang={lang}
+            lang={activeLang}
           />
           <RegionCard
             title={regions.kpk.title}
             craft={regions.kpk.craft}
             description={regions.kpk.description}
-            lang={lang}
+            lang={activeLang}
           />
           <RegionCard
             title={regions.balochistan.title}
             craft={regions.balochistan.craft}
             description={regions.balochistan.description}
-            lang={lang}
+            lang={activeLang}
           />
           <RegionCard
             title={regions.gb_kashmir.title}
             craft={regions.gb_kashmir.craft}
             description={regions.gb_kashmir.description}
-            lang={lang}
+            lang={activeLang}
           />
         </div>
       </div>
