@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import LanguageSwitcher from '../ui/LanguageSwitcher';
-import AudioToggle from '../ui/AudioToggle';
+import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
+import AudioToggle from '@/components/ui/AudioToggle';
 import { useTranslation } from '@/hooks/useTranslation';
 
 export default function Navbar() {
