@@ -5,6 +5,7 @@ import {
   JetBrains_Mono,
   Noto_Nastaliq_Urdu,
 } from 'next/font/google';
+import { LanguageProvider } from '@/context/LanguageContext';
 import './globals.css';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -57,7 +58,7 @@ export default function RootLayout({
     >
       <body className="antialiased bg-emerald-deep text-cream-archival selection:bg-gold-antique selection:text-emerald-deep">
         <div className="grain-overlay" aria-hidden="true" />
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );
