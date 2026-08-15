@@ -105,63 +105,65 @@ export default function TapestryChapter({ lang }: TapestryChapterProps = {}) {
         </div>
 
         {/* Interactive Showcase Hero Showcase Panel */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center rounded-3xl p-8 bg-emerald-vibrant/30 border border-gold-antique/20 backdrop-blur-xl shadow-2xl relative overflow-hidden">
-          {/* Active Canvas Pattern Visual Display (5 Cols on Desktop) */}
-          <div className="lg:col-span-5 relative aspect-square max-w-md mx-auto w-full rounded-2xl overflow-hidden border border-gold-antique/30 shadow-2xl group">
-            <RegionCanvasPattern regionId={activeRegion} animate={true} />
-            <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep/80 via-transparent to-transparent opacity-60" />
-            
-            {/* Active Pattern Badge Label */}
-            <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-emerald-deep/90 border border-gold-antique/30 backdrop-blur-md flex items-center justify-between">
-              <span className="font-mono text-xs text-chamakpatti-yellow font-bold flex items-center gap-1.5">
-                <Layers className="w-3.5 h-3.5 text-gold-antique" />
-                {isUrdu ? currentConfig.badgeLabelUr : currentConfig.badgeLabel}
-              </span>
-              <Sparkles className="w-4 h-4 text-chamakpatti-yellow animate-pulse" />
+        <div className="max-w-6xl mx-auto w-full px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center rounded-3xl p-8 bg-emerald-vibrant/30 border border-gold-antique/20 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+            {/* Active Canvas Pattern Visual Display (5 Cols on Desktop) */}
+            <div className="lg:col-span-5 relative aspect-square max-w-md mx-auto w-full rounded-2xl overflow-hidden border border-gold-antique/30 shadow-2xl group">
+              <RegionCanvasPattern regionId={activeRegion} animate={true} />
+              <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep/80 via-transparent to-transparent opacity-60" />
+              
+              {/* Active Pattern Badge Label */}
+              <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-emerald-deep/90 border border-gold-antique/30 backdrop-blur-md flex items-center justify-between">
+                <span className="font-mono text-xs text-chamakpatti-yellow font-bold flex items-center gap-1.5">
+                  <Layers className="w-3.5 h-3.5 text-gold-antique" />
+                  {isUrdu ? currentConfig.badgeLabelUr : currentConfig.badgeLabel}
+                </span>
+                <Sparkles className="w-4 h-4 text-chamakpatti-yellow animate-pulse" />
+              </div>
             </div>
-          </div>
 
-          {/* Active Region Detailed Description Panel (7 Cols on Desktop) */}
-          <div className="lg:col-span-7 space-y-6">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeRegion}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.35 }}
-                className="space-y-4"
-              >
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-deep text-chamakpatti-yellow font-mono text-xs font-bold border border-gold-antique/40">
-                  <span>● {activeData.craft}</span>
-                </div>
-                <h3 className={`text-3xl md:text-4xl font-bold text-cream-archival ${isUrdu ? 'font-urdu text-4xl' : 'font-serif'}`}>
-                  {activeData.title}
-                </h3>
-                <p className={`text-base md:text-lg text-cream-archival/90 leading-relaxed ${isUrdu ? 'font-urdu text-lg leading-loose' : 'font-sans'}`}>
-                  {activeData.description}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Region Switcher Pills Hint */}
-            <div className="pt-4 border-t border-gold-antique/10 flex flex-wrap items-center gap-2">
-              <span className="text-xs font-mono text-gold-antique/60 mr-2">
-                {isUrdu ? 'علاقہ منتخب کریں:' : 'Explore Region:'}
-              </span>
-              {regionList.map(({ id, data }) => (
-                <button
-                  key={id}
-                  onClick={() => setActiveRegion(id)}
-                  className={`px-3 py-1.5 rounded-lg font-mono text-xs transition-all duration-300 ${
-                    activeRegion === id
-                      ? 'bg-gold-antique text-emerald-deep font-bold shadow-md scale-105'
-                      : 'bg-emerald-vibrant/40 text-cream-archival/70 hover:text-cream-archival hover:bg-emerald-vibrant/60 border border-gold-antique/20'
-                  }`}
+            {/* Active Region Detailed Description Panel (7 Cols on Desktop) */}
+            <div className="lg:col-span-7 space-y-6">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeRegion}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.35 }}
+                  className="space-y-4"
                 >
-                  {data.title}
-                </button>
-              ))}
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-deep text-chamakpatti-yellow font-mono text-xs font-bold border border-gold-antique/40">
+                    <span>● {activeData.craft}</span>
+                  </div>
+                  <h3 className={`text-3xl md:text-4xl font-bold text-cream-archival ${isUrdu ? 'font-urdu text-4xl' : 'font-serif'}`}>
+                    {activeData.title}
+                  </h3>
+                  <p className={`text-base md:text-lg text-cream-archival/90 leading-relaxed ${isUrdu ? 'font-urdu text-lg leading-loose' : 'font-sans'}`}>
+                    {activeData.description}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Region Switcher Pills Hint */}
+              <div className="pt-4 border-t border-gold-antique/10 flex flex-wrap items-center gap-2">
+                <span className="text-xs font-mono text-gold-antique/60 mr-2">
+                  {isUrdu ? 'علاقہ منتخب کریں:' : 'Explore Region:'}
+                </span>
+                {regionList.map(({ id, data }) => (
+                  <button
+                    key={id}
+                    onClick={() => setActiveRegion(id)}
+                    className={`px-3 py-1.5 rounded-lg font-mono text-xs transition-all duration-300 ${
+                      activeRegion === id
+                        ? 'bg-gold-antique text-emerald-deep font-bold shadow-md scale-105'
+                        : 'bg-emerald-vibrant/40 text-cream-archival/70 hover:text-cream-archival hover:bg-emerald-vibrant/60 border border-gold-antique/20'
+                    }`}
+                  >
+                    {data.title}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
