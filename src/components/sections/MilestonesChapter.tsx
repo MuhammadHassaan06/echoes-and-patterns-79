@@ -39,8 +39,11 @@ export default function MilestonesChapter({ lang }: MilestonesChapterProps = {})
 
         if (!section || !track) return;
 
+        const isRTL = activeLang === 'ur';
+
         const getScrollAmount = () => {
-          return -(track.scrollWidth - window.innerWidth + 120);
+          const overflow = track.scrollWidth - window.innerWidth + 120;
+          return isRTL ? overflow : -overflow;
         };
 
         const anim = gsap.to(track, {
@@ -82,6 +85,7 @@ export default function MilestonesChapter({ lang }: MilestonesChapterProps = {})
       {/* ========================================================================= */}
       <div
         ref={desktopSectionRef}
+        dir={isUrdu ? 'rtl' : 'ltr'}
         className="hidden md:flex flex-col justify-between h-screen w-full relative overflow-hidden py-10"
       >
         {/* Header Block */}
@@ -105,7 +109,7 @@ export default function MilestonesChapter({ lang }: MilestonesChapterProps = {})
 
           {/* Interactive Scroll Indicator Hint */}
           <div className="hidden lg:flex items-center gap-3 text-gold-antique/60 text-xs font-mono tracking-wider uppercase bg-emerald-vibrant/30 px-4 py-2 rounded-full border border-gold-antique/20 backdrop-blur-sm">
-            <span>{isUrdu ? 'آگے بڑھنے کے لیے اسکرول کریں' : 'Scroll down to navigate timeline'}</span>
+            <span>{isUrdu ? 'تاریخ کا سفر جاری رکھنے کے لیے نیچے اسکرول کریں' : 'Scroll down to navigate timeline'}</span>
             <ArrowRight className={`w-4 h-4 text-chamakpatti-yellow animate-pulse ${isUrdu ? 'rotate-180' : ''}`} />
           </div>
         </div>
@@ -125,12 +129,12 @@ export default function MilestonesChapter({ lang }: MilestonesChapterProps = {})
                 className={`group relative w-[440px] lg:w-[480px] shrink-0 flex flex-col justify-between p-8 rounded-2xl bg-emerald-vibrant/30 border border-gold-antique/20 backdrop-blur-md transition-all duration-300 hover:border-gold-antique/60 hover:shadow-[0_0_30px_rgba(197,168,128,0.15)] hover:-translate-y-1 ${isUrdu ? 'text-right' : 'text-left'}`}
               >
                 {/* Large Background Watermark Year */}
-                <span className="absolute right-4 bottom-2 text-7xl font-bold font-mono text-gold-antique/5 select-none pointer-events-none group-hover:text-gold-antique/10 transition-colors duration-300">
+                <span className={`absolute bottom-2 text-7xl font-bold font-mono text-gold-antique/5 select-none pointer-events-none group-hover:text-gold-antique/10 transition-colors duration-300 ${isUrdu ? 'left-4' : 'right-4'}`}>
                   {yearWatermarks[idx] || item.era.slice(0, 4)}
                 </span>
 
                 {/* Node connector dot on top line */}
-                <div className="absolute -top-3 left-10 w-6 h-6 rounded-full bg-emerald-deep border-2 border-gold-antique flex items-center justify-center group-hover:scale-125 group-hover:border-chamakpatti-yellow transition-all duration-300">
+                <div className={`absolute -top-3 ${isUrdu ? 'right-10' : 'left-10'} w-6 h-6 rounded-full bg-emerald-deep border-2 border-gold-antique flex items-center justify-center group-hover:scale-125 group-hover:border-chamakpatti-yellow transition-all duration-300`}>
                   <div className="w-2 h-2 rounded-full bg-chamakpatti-yellow group-hover:animate-ping" />
                 </div>
 
@@ -170,13 +174,14 @@ export default function MilestonesChapter({ lang }: MilestonesChapterProps = {})
           <div className="w-full h-1 bg-emerald-vibrant/60 rounded-full overflow-hidden border border-gold-antique/10">
             <div
               ref={progressBarRef}
-              className="h-full w-full bg-gradient-to-r from-gold-antique via-chamakpatti-yellow to-gold-antique origin-left transform scale-x-0 transition-transform duration-75"
+              style={{ transformOrigin: isUrdu ? 'right' : 'left' }}
+              className="h-full w-full bg-gradient-to-r from-gold-antique via-chamakpatti-yellow to-gold-antique transform scale-x-0 transition-transform duration-75"
             />
           </div>
           <div className="flex justify-between items-center text-[10px] font-mono text-gold-antique/50 tracking-widest uppercase">
-            <span>1947 FOUNDATION</span>
-            <span>COMMEMORATIVE CHRONICLE</span>
-            <span>2026 FUTURE</span>
+            <span>{isUrdu ? '1947 آغاز' : '1947 FOUNDATION'}</span>
+            <span>{isUrdu ? 'یادگار سفرنامہ' : 'COMMEMORATIVE CHRONICLE'}</span>
+            <span>{isUrdu ? '2026 مستقبل' : '2026 FUTURE'}</span>
           </div>
         </div>
       </div>
@@ -184,7 +189,7 @@ export default function MilestonesChapter({ lang }: MilestonesChapterProps = {})
       {/* ========================================================================= */}
       {/* MOBILE LAYOUT (<768px): Vertical Stacked Timeline (No Scroll-Jacking)     */}
       {/* ========================================================================= */}
-      <div className="block md:hidden py-16 px-4 w-full relative">
+      <div dir={isUrdu ? 'rtl' : 'ltr'} className="block md:hidden py-16 px-4 w-full relative">
         {/* Mobile Header */}
         <div className="text-center space-y-3 mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-antique/10 border border-gold-antique/30">
@@ -204,18 +209,18 @@ export default function MilestonesChapter({ lang }: MilestonesChapterProps = {})
         </div>
 
         {/* Mobile Timeline Container with vertical axis line */}
-        <div className="relative max-w-md mx-auto space-y-8 pl-6 border-l-2 border-gold-antique/30">
+        <div className={`relative max-w-md mx-auto space-y-8 ${isUrdu ? 'pr-6 border-r-2' : 'pl-6 border-l-2'} border-gold-antique/30`}>
           {content.timeline.map((item, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: isUrdu ? 20 : -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
               className={`relative p-6 rounded-xl bg-emerald-vibrant/30 border border-gold-antique/20 backdrop-blur-sm space-y-3 ${isUrdu ? 'text-right' : 'text-left'}`}
             >
               {/* Vertical Timeline Node Marker */}
-              <div className="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-emerald-deep border-2 border-gold-antique flex items-center justify-center">
+              <div className={`absolute ${isUrdu ? '-right-[31px]' : '-left-[31px]'} top-6 w-4 h-4 rounded-full bg-emerald-deep border-2 border-gold-antique flex items-center justify-center`}>
                 <div className="w-1.5 h-1.5 rounded-full bg-chamakpatti-yellow" />
               </div>
 
