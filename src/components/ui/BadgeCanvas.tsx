@@ -9,7 +9,8 @@ interface BadgeCanvasProps extends BadgeOptions {
 }
 
 export default function BadgeCanvas({
-  wish,
+  name = '',
+  wish = '',
   frameIndex = 0,
   language = 'en',
   width = 600,
@@ -19,17 +20,17 @@ export default function BadgeCanvas({
 
   useEffect(() => {
     if (canvasRef.current) {
-      drawKeepsakeBadge(canvasRef.current, { wish, frameIndex, language });
+      drawKeepsakeBadge(canvasRef.current, { name, wish, frameIndex, language });
     }
-  }, [wish, frameIndex, language]);
+  }, [name, wish, frameIndex, language]);
 
   return (
-    <div className="relative rounded-2xl overflow-hidden border border-gold-antique/30 shadow-2xl">
+    <div className="relative rounded-3xl overflow-hidden border border-gold-antique/30 shadow-2xl bg-emerald-deep max-w-[420px] w-full mx-auto aspect-square group">
       <canvas
         ref={canvasRef}
         width={width}
         height={height}
-        className="w-full max-w-[400px] h-auto aspect-square"
+        className="w-full h-full object-contain"
       />
     </div>
   );
