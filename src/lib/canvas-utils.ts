@@ -34,7 +34,7 @@ export function drawKeepsakeBadge(
 
   // Save Canvas State
   ctx.save();
-  ctx.direction = 'ltr'; // Keep canvas text baseline & direction consistent
+  ctx.direction = 'ltr';
 
   // 1. Clear Canvas
   ctx.clearRect(0, 0, w, h);
@@ -53,35 +53,61 @@ export function drawKeepsakeBadge(
       break;
   }
 
-  // 3. Render Header Text
+  // 3. Render Top Header Badge Text (Shifted down to 54 * scale)
   ctx.textAlign = 'center';
-  ctx.textBaseline = 'alphabetic';
-
+  ctx.textBaseline = 'middle';
   ctx.fillStyle = '#F3C623';
-  ctx.font = `bold ${Math.round(11 * scale)}px var(--font-jetbrains-mono), monospace`;
-  ctx.fillText(
-    isUrdu ? '● 79واں یومِ آزادی پاکستان ●' : '● 79TH INDEPENDENCE DAY TRIBUTE ●',
-    w / 2,
-    46 * scale
-  );
 
-  // 4. Render Decorative Divider / Crescent Motif
-  drawCrescentStarMotif(ctx, w / 2, 65 * scale, 9 * scale, '#C5A880');
+  const headerY = 54 * scale;
+
+  if (isUrdu) {
+    ctx.save();
+    ctx.direction = 'rtl';
+    ctx.font = `bold ${Math.round(15 * scale)}px 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif`;
+
+    const urduHeader = '\u200F\u06F7\u06F9\u0648\u0627\u06BA \u06CC\u0648\u0645\u0650 \u0622\u0632\u0627\u062F\u06CC \u067E\u0627\u06A9\u0633\u062A\u0627\u0646';
+    ctx.fillText(urduHeader, w / 2, headerY);
+
+    // Dynamic Left & Right Dots
+    const textHalfWidth = ctx.measureText(urduHeader).width / 2;
+    const dotGap = 12 * scale;
+    const dotRadius = 2.5 * scale;
+
+    ctx.beginPath();
+    ctx.arc(w / 2 - textHalfWidth - dotGap, headerY, dotRadius, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(w / 2 + textHalfWidth + dotGap, headerY, dotRadius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  } else {
+    ctx.font = `bold ${Math.round(11.5 * scale)}px 'JetBrains Mono', 'Courier New', monospace`;
+    ctx.fillText('● 79TH INDEPENDENCE DAY TRIBUTE ●', w / 2, headerY);
+  }
+
+  // 4. Render Decorative Divider / Crescent Motif (Shifted to 76 * scale for clean breathing space)
+  drawCrescentStarMotif(ctx, w / 2, 76 * scale, 9 * scale, '#C5A880');
 
   // 5. Render Personalized Name
   ctx.fillStyle = '#F5F2EB';
   ctx.font = isUrdu
-    ? `bold ${Math.round(22 * scale)}px var(--font-urdu), 'Jameel Noori Nastaleeq', serif`
-    : `bold ${Math.round(20 * scale)}px var(--font-playfair-display), serif`;
+    ? `bold ${Math.round(28 * scale)}px 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif`
+    : `bold ${Math.round(24 * scale)}px 'Playfair Display', Georgia, serif`;
+
   ctx.shadowColor = 'rgba(243, 198, 35, 0.4)';
   ctx.shadowBlur = 6 * scale;
-  ctx.fillText(nameText, w / 2, 110 * scale);
+
+  const nameY = 112 * scale;
+  ctx.fillText(nameText, w / 2, nameY);
   ctx.shadowBlur = 0; // Reset shadow
 
-  // Subtle Name Underline / Ribbon Accent
+  // Name Underline Accent
+  const nameWidth = ctx.measureText(nameText).width;
+  const underlineWidth = Math.max(90 * scale, Math.min(nameWidth * 0.75, w * 0.45));
   ctx.beginPath();
-  ctx.moveTo(w / 2 - 65 * scale, 122 * scale);
-  ctx.lineTo(w / 2 + 65 * scale, 122 * scale);
+  ctx.moveTo(w / 2 - underlineWidth / 2, nameY + 13 * scale);
+  ctx.lineTo(w / 2 + underlineWidth / 2, nameY + 13 * scale);
   ctx.strokeStyle = '#C5A880';
   ctx.lineWidth = 1.5 * scale;
   ctx.stroke();
@@ -89,27 +115,28 @@ export function drawKeepsakeBadge(
   // 6. Render Wish / Promise Quote Box
   const boxY = 142 * scale;
   const boxWidth = w - 120 * scale; // 480px at 600 width
-  const boxHeight = 350 * scale;
+  const boxHeight = 310 * scale;
 
   // Glassmorphic Quote Container Box
   ctx.fillStyle = 'rgba(1, 46, 23, 0.65)';
   ctx.strokeStyle = 'rgba(197, 168, 128, 0.35)';
   ctx.lineWidth = 1 * scale;
-  roundRect(ctx, w / 2 - boxWidth / 2, boxY, boxWidth, boxHeight, 16 * scale, true, true);
+  roundRect(ctx, w / 2 - boxWidth / 2, boxY, boxWidth, boxHeight, 14 * scale, true, true);
 
   // Watermark Quotation Mark
   ctx.fillStyle = 'rgba(243, 198, 35, 0.2)';
-  ctx.font = `bold ${Math.round(32 * scale)}px serif`;
-  ctx.fillText('“', w / 2 - boxWidth / 2 + 24 * scale, boxY + 35 * scale);
+  ctx.font = `bold ${Math.round(34 * scale)}px serif`;
+  ctx.fillText('“', w / 2 - boxWidth / 2 + 24 * scale, boxY + 36 * scale);
 
-  // Wrapped Wish Quote Lines
+  // Center Quote Text
   ctx.fillStyle = '#F5F2EB';
   ctx.font = isUrdu
-    ? `${Math.round(18 * scale)}px var(--font-urdu), 'Jameel Noori Nastaleeq', serif`
-    : `italic ${Math.round(15 * scale)}px var(--font-plus-jakarta-sans), sans-serif`;
+    ? `${Math.round(24 * scale)}px 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif`
+    : `italic 600 ${Math.round(21.5 * scale)}px 'Plus Jakarta Sans', Georgia, sans-serif`;
 
-  const lines = wrapText(ctx, `"${wishText}"`, boxWidth - 50 * scale);
-  const lineHeight = isUrdu ? 32 * scale : 24 * scale;
+  const paddingX = 36 * scale;
+  const lines = wrapText(ctx, `"${wishText}"`, boxWidth - paddingX * 2);
+  const lineHeight = isUrdu ? 42 * scale : 31 * scale;
   const totalTextHeight = lines.length * lineHeight;
   const startY = boxY + (boxHeight / 2) - (totalTextHeight / 2) + (lineHeight / 2);
 
@@ -120,12 +147,12 @@ export function drawKeepsakeBadge(
   // 7. Render Footer Stamp Tag
   ctx.save();
   ctx.fillStyle = '#C5A880';
-  ctx.font = `bold ${Math.round(11 * scale)}px monospace`;
-  ctx.fillText('14 AUGUST 2026 • KEEPSAKE BADGE NO. 79', w / 2, h - 48 * scale);
+  ctx.font = `bold ${Math.round(11 * scale)}px 'JetBrains Mono', 'Courier New', monospace`;
+  ctx.fillText('14 AUGUST 2026 • KEEPSAKE BADGE NO. 79', w / 2, h - 74 * scale);
 
-  ctx.fillStyle = 'rgba(245, 242, 235, 0.7)';
-  ctx.font = `${Math.round(10 * scale)}px monospace`;
-  ctx.fillText('ECHOES & PATTERNS • PAKISTAN@79', w / 2, h - 28 * scale);
+  ctx.fillStyle = 'rgba(245, 242, 235, 0.75)';
+  ctx.font = `${Math.round(10 * scale)}px 'JetBrains Mono', 'Courier New', monospace`;
+  ctx.fillText('ECHOES & PATTERNS • PAKISTAN@79', w / 2, h - 56 * scale);
   ctx.restore();
 
   ctx.restore();
@@ -142,7 +169,6 @@ function drawTruckArtFrame(
   h: number,
   scale: number
 ) {
-  // Deep Emerald background
   ctx.fillStyle = '#012E17';
   ctx.fillRect(0, 0, w, h);
 
@@ -194,7 +220,6 @@ function drawAjrakFrame(
   h: number,
   scale: number
 ) {
-  // Deep Ajrak Indigo background
   ctx.fillStyle = '#0B1B3D';
   ctx.fillRect(0, 0, w, h);
 
@@ -241,7 +266,6 @@ function drawEmeraldWaveFrame(
   h: number,
   scale: number
 ) {
-  // Radial Velvet Emerald Background
   const bgGrad = ctx.createRadialGradient(w / 2, h / 2, 20 * scale, w / 2, h / 2, 320 * scale);
   bgGrad.addColorStop(0, '#01411C');
   bgGrad.addColorStop(0.7, '#012E17');
@@ -254,19 +278,19 @@ function drawEmeraldWaveFrame(
   ctx.lineWidth = 4 * scale;
   ctx.strokeRect(20 * scale, 20 * scale, w - 40 * scale, h - 40 * scale);
 
-  // Elegant Wave Accents at Top & Bottom
+  // Top & Bottom Wave Accents
   ctx.save();
   ctx.strokeStyle = 'rgba(243, 198, 35, 0.4)';
-  ctx.lineWidth = 2 * scale;
+  ctx.lineWidth = 1.8 * scale;
 
   ctx.beginPath();
-  ctx.moveTo(20 * scale, 45 * scale);
-  ctx.bezierCurveTo(w / 4, 65 * scale, (3 * w) / 4, 25 * scale, w - 20 * scale, 45 * scale);
+  ctx.moveTo(20 * scale, 34 * scale);
+  ctx.bezierCurveTo(w / 4, 44 * scale, (3 * w) / 4, 24 * scale, w - 20 * scale, 34 * scale);
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.moveTo(20 * scale, h - 45 * scale);
-  ctx.bezierCurveTo(w / 4, h - 65 * scale, (3 * w) / 4, h - 25 * scale, w - 20 * scale, h - 45 * scale);
+  ctx.moveTo(20 * scale, h - 34 * scale);
+  ctx.bezierCurveTo(w / 4, h - 44 * scale, (3 * w) / 4, h - 24 * scale, w - 20 * scale, h - 34 * scale);
   ctx.stroke();
   ctx.restore();
 }
