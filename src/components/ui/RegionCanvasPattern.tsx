@@ -26,8 +26,11 @@ export default function RegionCanvasPattern({
 
     let animationFrameId: number;
     let time = 0;
+    let isIntersecting = false;
 
     const render = () => {
+      if (!isIntersecting) return;
+
       const width = canvas.width;
       const height = canvas.height;
       ctx.clearRect(0, 0, width, height);
@@ -55,7 +58,7 @@ export default function RegionCanvasPattern({
           break;
       }
 
-      if (animate) {
+      if (animate && isIntersecting) {
         animationFrameId = requestAnimationFrame(render);
       }
     };
@@ -73,7 +76,25 @@ export default function RegionCanvasPattern({
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
+    // Pause animation when off-screen using IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        const wasIntersecting = isIntersecting;
+        isIntersecting = entry.isIntersecting;
+
+        if (!wasIntersecting && isIntersecting) {
+          if (animationFrameId) cancelAnimationFrame(animationFrameId);
+          render();
+        }
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(canvas);
+
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', resizeCanvas);
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
