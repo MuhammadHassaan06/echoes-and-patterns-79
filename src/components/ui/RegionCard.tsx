@@ -1,9 +1,14 @@
 'use client';
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { Language } from '@/types/i18n';
-import RegionCanvasPattern, { RegionId } from './RegionCanvasPattern';
+import { RegionId } from './RegionCanvasPattern';
 import { Sparkles } from 'lucide-react';
+
+const RegionCanvasPattern = dynamic(() => import('./RegionCanvasPattern'), {
+  ssr: false,
+});
 
 interface RegionCardProps {
   id: RegionId;
