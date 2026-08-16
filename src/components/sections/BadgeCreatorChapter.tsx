@@ -101,11 +101,12 @@ export default function BadgeCreatorChapter({ lang }: BadgeCreatorChapterProps =
           <div className="lg:col-span-7 space-y-8 bg-emerald-vibrant/20 border border-gold-antique/20 rounded-3xl p-8 backdrop-blur-xl shadow-xl">
             {/* Control 1: Name Input */}
             <div className="space-y-2">
-              <label className="text-xs font-mono text-gold-antique uppercase font-bold tracking-wider flex items-center gap-2">
-                <User className="w-4 h-4 text-chamakpatti-yellow" />
+              <label htmlFor="badge-name-input" className="text-xs font-mono text-gold-antique uppercase font-bold tracking-wider flex items-center gap-2">
+                <User className="w-4 h-4 text-chamakpatti-yellow" aria-hidden="true" />
                 {isUrdu ? '1. اپنا نام (اردو یا انگریزی)' : '1. Your Name (English or Urdu)'}
               </label>
               <input
+                id="badge-name-input"
                 type="text"
                 value={nameInput}
                 onChange={(e) => setNameInput(e.target.value)}
@@ -144,8 +145,8 @@ export default function BadgeCreatorChapter({ lang }: BadgeCreatorChapterProps =
             {/* Control 3: 1-Line Wish / Promise Input & Suggestion Chips */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-mono text-gold-antique uppercase font-bold tracking-wider flex items-center gap-2">
-                  <MessageSquare className="w-4 h-4 text-chamakpatti-yellow" />
+                <label htmlFor="badge-wish-input" className="text-xs font-mono text-gold-antique uppercase font-bold tracking-wider flex items-center gap-2">
+                  <MessageSquare className="w-4 h-4 text-chamakpatti-yellow" aria-hidden="true" />
                   {isUrdu ? '3. پاکستان کے لیے اپنا عزم / دعا' : '3. Wish / Promise for Pakistan'}
                 </label>
                 <span className="text-[10px] font-mono text-gold-antique/50">
@@ -154,6 +155,7 @@ export default function BadgeCreatorChapter({ lang }: BadgeCreatorChapterProps =
               </div>
 
               <input
+                id="badge-wish-input"
                 type="text"
                 value={wishInput}
                 onChange={(e) => setWishInput(e.target.value)}

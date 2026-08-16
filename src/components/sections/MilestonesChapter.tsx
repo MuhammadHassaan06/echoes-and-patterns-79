@@ -31,8 +31,8 @@ export default function MilestonesChapter({ lang }: MilestonesChapterProps = {})
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      // Desktop layout: Pinned horizontal scroll track (≥768px)
-      mm.add('(min-width: 768px)', () => {
+      // Desktop layout: Pinned horizontal scroll track (≥768px, no reduced motion)
+      mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
         const section = desktopSectionRef.current;
         const track = trackRef.current;
         const progressBar = progressBarRef.current;

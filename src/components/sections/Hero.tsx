@@ -7,19 +7,40 @@ import { Sparkles, ArrowDown } from 'lucide-react';
 export default function Hero() {
   const { t, language } = useTranslation();
   const [scrollY, setScrollY] = useState(0);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
+    // Check user reduced motion preference
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handleMotionChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches);
+    };
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleMotionChange);
+    }
+
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      if (!mediaQuery.matches) {
+        setScrollY(window.scrollY);
+      }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', handleMotionChange);
+      }
+    };
   }, []);
 
-  // Parallax calculations (hardware accelerated)
-  const glowParallax = scrollY * 0.35;
-  const contentParallax = scrollY * 0.15;
-  const opacityFade = Math.max(0, 1 - scrollY / 600);
+  // Parallax calculations (disabled when reduced motion is preferred)
+  const glowParallax = prefersReducedMotion ? 0 : scrollY * 0.35;
+  const contentParallax = prefersReducedMotion ? 0 : scrollY * 0.15;
+  const opacityFade = prefersReducedMotion ? 1 : Math.max(0, 1 - scrollY / 600);
 
   return (
     <section className="relative min-h-[90vh] sm:min-h-screen flex items-center justify-center pt-28 pb-16 px-4 sm:px-6 overflow-hidden bg-emerald-deep">
@@ -42,6 +63,9 @@ export default function Hero() {
           className="absolute w-48 sm:w-80 md:w-96 h-48 sm:h-80 md:h-96 text-gold-antique/10 pointer-events-none"
           viewBox="0 0 100 100"
           fill="currentColor"
+          aria-hidden="true"
+          role="img"
+          aria-label="Pakistan Crescent and Star Silhouette Glow Motif"
         >
           {/* Crescent */}
           <path d="M50 10 A40 40 0 1 0 90 50 A32 32 0 1 1 50 10 Z" />
@@ -60,7 +84,7 @@ export default function Hero() {
       >
         {/* Independence Badge Pill */}
         <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full border border-gold-antique/40 bg-emerald-vibrant/40 backdrop-blur-md text-[11px] sm:text-xs font-mono text-chamakpatti-yellow shadow-inner">
-          <Sparkles className="w-3.5 h-3.5 text-chamakpatti-yellow animate-spin" style={{ animationDuration: '6s' }} />
+          <Sparkles className="w-3.5 h-3.5 text-chamakpatti-yellow animate-spin" style={{ animationDuration: '6s' }} aria-hidden="true" />
           <span className="tracking-widest uppercase font-semibold">
             1947 — 2026 • 79 YEARS OF INDEPENDENCE
           </span>
@@ -90,12 +114,13 @@ export default function Hero() {
         <div className="pt-4 sm:pt-6">
           <a
             href="#genesis"
+            aria-label={t('hero.cta')}
             className="group relative inline-flex items-center gap-2.5 px-7 sm:px-9 py-3.5 sm:py-4 rounded-full bg-emerald-vibrant hover:bg-gold-antique text-cream-archival hover:text-emerald-deep font-semibold text-sm sm:text-base border border-gold-antique/50 shadow-xl transition-all duration-300 transform hover:scale-105 active:scale-95"
           >
             <span className={language === 'ur' ? 'font-urdu text-lg' : 'font-sans'}>
               {t('hero.cta')}
             </span>
-            <ArrowDown className="w-4 h-4 transition-transform group-hover:translate-y-1" />
+            <ArrowDown className="w-4 h-4 transition-transform group-hover:translate-y-1" aria-hidden="true" />
           </a>
         </div>
       </div>
