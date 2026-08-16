@@ -45,11 +45,38 @@ export default function GenesisChapter() {
     setIsPlaying(true);
     setKey((prev) => prev + 1);
     playGeneratedTone();
+
+    // Built-in browser text-to-speech broadcast in active language (Urdu/English)
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(tributeText);
+      utterance.lang = language === 'ur' ? 'ur-PK' : 'en-US';
+      utterance.rate = 0.9; // Historic broadcast cadence
+      utterance.pitch = 1.0;
+
+      const voices = window.speechSynthesis.getVoices();
+      const targetLangPrefix = language === 'ur' ? 'ur' : 'en';
+      const matchedVoice = voices.find((v) =>
+        v.lang.toLowerCase().startsWith(targetLangPrefix)
+      );
+      if (matchedVoice) {
+        utterance.voice = matchedVoice;
+      }
+
+      window.speechSynthesis.speak(utterance);
+    }
   };
 
-  // Auto-start animation on scroll / mount
+  // Auto-start animation on scroll / mount & cleanup active speech synthesis
   useEffect(() => {
     setIsPlaying(true);
+
+    return () => {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
   }, [language]);
 
   return (
