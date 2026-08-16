@@ -10,20 +10,29 @@ import './globals.css';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-plus-jakarta-sans',
   display: 'swap',
+  preload: true,
+  fallback: ['system-ui', 'sans-serif'],
 });
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
+  weight: ['400', '600', '700', '800'],
   variable: '--font-playfair-display',
   display: 'swap',
+  preload: true,
+  fallback: ['Georgia', 'serif'],
 });
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-jetbrains-mono',
   display: 'swap',
+  preload: true,
+  fallback: ['Courier New', 'monospace'],
 });
 
 const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
@@ -31,6 +40,8 @@ const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
   weight: ['400', '700'],
   variable: '--font-noto-nastaliq-urdu',
   display: 'swap',
+  preload: true,
+  fallback: ['Amiri', 'serif'],
 });
 
 export const metadata: Metadata = {
