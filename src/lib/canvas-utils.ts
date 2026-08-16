@@ -375,18 +375,52 @@ function wrapText(
 /**
  * Exports the badge as a high-resolution PNG file download (1200x1200px)
  */
-export function exportBadgeAsPNG(options: BadgeOptions, filename = 'Pakistan-79th-Keepsake-Badge.png'): void {
+export function exportBadgeAsPNG(
+  options: BadgeOptions,
+  filename?: string
+): void {
+  const nameSlug = (options.name || 'pakistan')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]/gi, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '') || 'pakistan';
+
+  const finalFilename = filename || `echoes-patterns-79-badge-${nameSlug}.png`;
+
+  // 1. High-Res 1200x1200px Offscreen Canvas
   const offscreenCanvas = document.createElement('canvas');
   offscreenCanvas.width = 1200;
   offscreenCanvas.height = 1200;
 
+  // 2. Render badge
   drawKeepsakeBadge(offscreenCanvas, options);
 
-  const dataUrl = offscreenCanvas.toDataURL('image/png');
-  const link = document.createElement('a');
-  link.download = filename;
-  link.href = dataUrl;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  // 3. Blob Based Download (Direct PNG File)
+  offscreenCanvas.toBlob((blob) => {
+    if (!blob) {
+      // Fallback agar toBlob fail ho
+      const dataUrl = offscreenCanvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = finalFilename;
+      link.href = dataUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      return;
+    }
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = finalFilename;
+    link.href = url;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }, 200);
+  }, 'image/png');
 }

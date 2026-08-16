@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
-import BadgeCanvas from '../ui/BadgeCanvas';
+import BadgeCanvas, { BadgeCanvasHandle } from '../ui/BadgeCanvas';
 import { exportBadgeAsPNG } from '@/lib/canvas-utils';
 import { sanitizeWishText } from '@/lib/word-filter';
 import en from '@/data/i18n/en.json';
@@ -15,6 +15,7 @@ interface BadgeCreatorChapterProps {
 }
 
 export default function BadgeCreatorChapter({ lang }: BadgeCreatorChapterProps = {}) {
+  const badgeRef = useRef<BadgeCanvasHandle>(null);
   const { language } = useTranslation();
   const activeLang = lang ?? language;
   const isUrdu = activeLang === 'ur';
@@ -37,13 +38,9 @@ export default function BadgeCreatorChapter({ lang }: BadgeCreatorChapterProps =
     setDownloadSuccess(false);
 
     try {
-      exportBadgeAsPNG({
-        name: sanitizedName,
-        wish: sanitizedWish,
-        frameIndex: selectedFrame,
-        language: activeLang,
-      });
-
+      if (badgeRef.current) {
+        badgeRef.current.downloadImage(sanitizedName);
+      }
       setDownloadSuccess(true);
       setTimeout(() => setDownloadSuccess(false), 3000);
     } catch (err) {
@@ -84,6 +81,7 @@ export default function BadgeCreatorChapter({ lang }: BadgeCreatorChapterProps =
           {/* Left Column: Live Canvas Badge Preview (5 cols on Desktop) */}
           <div className="lg:col-span-5 space-y-4 text-center">
             <BadgeCanvas
+              ref={badgeRef}
               name={sanitizedName}
               wish={sanitizedWish}
               frameIndex={selectedFrame}
@@ -112,9 +110,8 @@ export default function BadgeCreatorChapter({ lang }: BadgeCreatorChapterProps =
                 onChange={(e) => setNameInput(e.target.value)}
                 maxLength={40}
                 placeholder={isUrdu ? 'اپنا نام درج کریں...' : 'Enter your name...'}
-                className={`w-full px-4 py-3 rounded-xl bg-emerald-deep/80 border border-gold-antique/30 text-cream-archival placeholder:text-cream-archival/40 focus:outline-none focus:border-gold-antique focus:ring-1 focus:ring-gold-antique transition-all ${
-                  isUrdu ? 'font-urdu text-lg' : 'font-sans text-base'
-                }`}
+                className={`w-full px-4 py-3 rounded-xl bg-emerald-deep/80 border border-gold-antique/30 text-cream-archival placeholder:text-cream-archival/40 focus:outline-none focus:border-gold-antique focus:ring-1 focus:ring-gold-antique transition-all ${isUrdu ? 'font-urdu text-lg' : 'font-sans text-base'
+                  }`}
               />
             </div>
 
@@ -130,11 +127,10 @@ export default function BadgeCreatorChapter({ lang }: BadgeCreatorChapterProps =
                     key={idx}
                     type="button"
                     onClick={() => setSelectedFrame(idx)}
-                    className={`px-4 py-3 rounded-xl border text-xs font-mono font-bold transition-all duration-300 flex flex-col items-center justify-center gap-1.5 ${
-                      selectedFrame === idx
+                    className={`px-4 py-3 rounded-xl border text-xs font-mono font-bold transition-all duration-300 flex flex-col items-center justify-center gap-1.5 ${selectedFrame === idx
                         ? 'border-gold-antique bg-gold-antique/25 text-chamakpatti-yellow shadow-lg scale-[1.02]'
                         : 'border-gold-antique/20 bg-emerald-deep/40 text-cream-archival/70 hover:border-gold-antique/50 hover:bg-emerald-deep/70'
-                    } ${isUrdu ? 'font-urdu text-sm' : ''}`}
+                      } ${isUrdu ? 'font-urdu text-sm' : ''}`}
                   >
                     <span>{frameName}</span>
                   </button>
@@ -161,9 +157,8 @@ export default function BadgeCreatorChapter({ lang }: BadgeCreatorChapterProps =
                 onChange={(e) => setWishInput(e.target.value)}
                 maxLength={100}
                 placeholder={isUrdu ? 'اپنا پیغام لکھیں...' : 'Type your wish or promise...'}
-                className={`w-full px-4 py-3 rounded-xl bg-emerald-deep/80 border border-gold-antique/30 text-cream-archival placeholder:text-cream-archival/40 focus:outline-none focus:border-gold-antique focus:ring-1 focus:ring-gold-antique transition-all ${
-                  isUrdu ? 'font-urdu text-base' : 'font-sans text-sm'
-                }`}
+                className={`w-full px-4 py-3 rounded-xl bg-emerald-deep/80 border border-gold-antique/30 text-cream-archival placeholder:text-cream-archival/40 focus:outline-none focus:border-gold-antique focus:ring-1 focus:ring-gold-antique transition-all ${isUrdu ? 'font-urdu text-base' : 'font-sans text-sm'
+                  }`}
               />
 
               {/* Quick Suggestion Chips */}
@@ -177,11 +172,10 @@ export default function BadgeCreatorChapter({ lang }: BadgeCreatorChapterProps =
                       key={idx}
                       type="button"
                       onClick={() => setWishInput(wishText)}
-                      className={`text-left text-xs p-2.5 rounded-lg border transition-all duration-200 ${
-                        wishInput === wishText
+                      className={`text-left text-xs p-2.5 rounded-lg border transition-all duration-200 ${wishInput === wishText
                           ? 'border-gold-antique/60 bg-gold-antique/15 text-chamakpatti-yellow font-bold'
                           : 'border-gold-antique/15 bg-emerald-deep/30 text-cream-archival/70 hover:border-gold-antique/40 hover:text-cream-archival'
-                      } ${isUrdu ? 'font-urdu text-sm text-right' : 'font-sans'}`}
+                        } ${isUrdu ? 'font-urdu text-sm text-right' : 'font-sans'}`}
                     >
                       "{wishText}"
                     </button>
