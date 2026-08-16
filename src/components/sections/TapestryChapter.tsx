@@ -1,14 +1,19 @@
 'use client';
 
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/hooks/useTranslation';
 import RegionCard from '../ui/RegionCard';
-import RegionCanvasPattern, { RegionId } from '../ui/RegionCanvasPattern';
+import { RegionId } from '../ui/RegionCanvasPattern';
 import en from '@/data/i18n/en.json';
 import ur from '@/data/i18n/ur.json';
 import { Language } from '@/types/i18n';
 import { Compass, Sparkles, Layers } from 'lucide-react';
+
+const RegionCanvasPattern = dynamic(() => import('../ui/RegionCanvasPattern'), {
+  ssr: false,
+});
 
 interface TapestryChapterProps {
   lang?: Language;
