@@ -1,14 +1,19 @@
 'use client';
 
 import React, { useState, useMemo, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { useTranslation } from '@/hooks/useTranslation';
-import BadgeCanvas, { BadgeCanvasHandle } from '../ui/BadgeCanvas';
+import type { BadgeCanvasHandle } from '../ui/BadgeCanvas';
 import { exportBadgeAsPNG } from '@/lib/canvas-utils';
 import { sanitizeWishText } from '@/lib/word-filter';
 import en from '@/data/i18n/en.json';
 import ur from '@/data/i18n/ur.json';
 import { Language } from '@/types/i18n';
 import { Download, Sparkles, User, MessageSquare, Frame, ShieldCheck } from 'lucide-react';
+
+const BadgeCanvas = dynamic(() => import('../ui/BadgeCanvas'), {
+  ssr: false,
+});
 
 interface BadgeCreatorChapterProps {
   lang?: Language;
